@@ -1,3 +1,4 @@
+import {useState,useEffect} from 'react';
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -6,10 +7,58 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
+import {db} from "../../config/firebase";
+import{getDocs,collection,query, where} from "firebase/firestore";
+// import 'firebase/firestore';
+// import firebase from 'firebase/app';
 
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  // get datta frome firestore members
+  // const memberscollection = collection(db,"members").doc('dUOW5luLSWfgeNkOm5LP');
+
+  const getmembers = async () =>{
+
+  const q = query(collection(db, "members"), where("name", "==", "yoo"));
+  
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+  });
+};
+getmembers();
+  
+
+
+
+
+
+
+
+
+
+
+
+  // const getmembers = async () =>{
+  //   try{
+  //     const data = await getDocs(memberscollection);
+  //     const filterdata = data.docs.map((doc)=>({
+  //     ...doc.data('name'),
+  //     id:doc.id,
+  //   })) 
+
+  //   console.log({filterdata});
+    
+  // }catch(err){
+  //   console.error(err);}
+  // };
+
+  //  getmembers()
+
+
   const columns = [
     { field: "id", headerName: "ID" },
     {

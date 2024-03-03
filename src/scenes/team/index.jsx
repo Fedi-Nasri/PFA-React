@@ -16,19 +16,9 @@ const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [subjects, setSubjects] = useState([]);
-  // get datta frome firestore members
-  // const memberscollection = collection(db,"members").doc('dUOW5luLSWfgeNkOm5LP');
+
   
-  const ArrayMember = [
-    {
-      id: 999,
-      name: "Fedi",
-      email: "Fedi@gmail.com",
-      age: 100,
-      phone: "545455555",
-      access: "admin",
-    },
-  ];  
+  
 useEffect( ()=> { 
 const getmembers = async () =>{ 
 
@@ -51,40 +41,6 @@ const getmembers = async () =>{
 },[]);
 
  
-// ArrayMebmber.push({
-//       id: 2,
-//     name:"Fedi",
-//     email: "fedi@gmail.com",
-//     age: 21,
-//     phone: "99999999999",
-//     access: "admin",
-//     });
-
-
-
-
-
-
-
-
-
-
-
-  // const getmembers = async () =>{
-  //   try{
-  //     const data = await getDocs(memberscollection);
-  //     const filterdata = data.docs.map((doc)=>({
-  //     ...doc.data('name'),
-  //     id:doc.id,
-  //   })) 
-
-  //   console.log({filterdata});
-    
-  // }catch(err){
-  //   console.error(err);}
-  // };
-
-  //  getmembers()
 
 
   const columns = [

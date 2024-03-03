@@ -15,22 +15,50 @@ import{getDocs,collection,query, where} from "firebase/firestore";
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const [subjects, setSubjects] = useState([]);
   // get datta frome firestore members
   // const memberscollection = collection(db,"members").doc('dUOW5luLSWfgeNkOm5LP');
-
-  const getmembers = async () =>{
-
-  const q = query(collection(db, "members"), where("name", "==", "yoo"));
   
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(doc.id, " => ", doc.data());
-  });
-};
-getmembers();
+  const ArrayMember = [
+    {
+      id: 999,
+      name: "Fedi",
+      email: "Fedi@gmail.com",
+      age: 100,
+      phone: "545455555",
+      access: "admin",
+    },
+  ];  
+useEffect( ()=> { 
+const getmembers = async () =>{ 
+
+    const q = query(collection(db, "members"));
+    const data=[ ];
+    const querySnapshot = await getDocs(q);
   
+    querySnapshot.forEach((doc) => {
+          console.log ("1)Data: ",data);
+          // doc.data() is never undefined for query doc snapshots
+          //console log data
+          // console.log("||id : ",doc.data().id," => name : ", doc.data().name," || access: ",doc.data().access," || phone : ",doc.data().phone);
+          data.push(doc.data());
+          console.log(doc.data());
+      });
+      setSubjects(data);
+     
+  }
+   getmembers();
+},[]);
+
+ 
+// ArrayMebmber.push({
+//       id: 2,
+//     name:"Fedi",
+//     email: "fedi@gmail.com",
+//     age: 21,
+//     phone: "99999999999",
+//     access: "admin",
+//     });
 
 
 
@@ -149,7 +177,7 @@ getmembers();
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={subjects} columns={columns} />
       </Box>
     </Box>
   );

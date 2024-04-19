@@ -71,8 +71,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-                       App version 0.0.4
+                       App version 0.0.5
 about app :
 
         new feature add :
-                - connect firebase database to the app fetching data to member section 
+                + add login interface 
+                + update dashborde interface
+                + authentification 
+                + fix bugs database
+                + create a real time database for sencors

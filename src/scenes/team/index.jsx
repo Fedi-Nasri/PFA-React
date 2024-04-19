@@ -8,7 +8,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../../components/Header";
 import {db} from "../../config/firebase";
-import{getDocs,collection,query, where} from "firebase/firestore";
+import{getDocs,collection,query, where,onSnapshot} from "firebase/firestore";
 // import 'firebase/firestore';
 // import firebase from 'firebase/app';
 
@@ -17,27 +17,62 @@ const Team = () => {
   const colors = tokens(theme.palette.mode);
   const [subjects, setSubjects] = useState([]);
 
+  const calculateAge = (dob) => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
   
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
   
-useEffect( ()=> { 
-const getmembers = async () =>{ 
+    return age;
+  };
+  
+useEffect( ()=> {
 
-    const q = query(collection(db, "members"));
-    const data=[ ];
-    const querySnapshot = await getDocs(q);
-  
-    querySnapshot.forEach((doc) => {
-          console.log ("1)Data: ",data);
-          // doc.data() is never undefined for query doc snapshots
-          //console log data
-          // console.log("||id : ",doc.data().id," => name : ", doc.data().name," || access: ",doc.data().access," || phone : ",doc.data().phone);
-          data.push(doc.data());
-          console.log(doc.data());
+  const getmembers = async () =>{ 
+    try{
+
+      
+      const q = query(collection(db, "members"));
+      const querySnapshot = await getDocs(q);
+      const unsubscribe =onSnapshot (q,(querySnapshot)=>{
+        const data=[ ];
+    
+        querySnapshot.forEach((doc) => {
+                // console.log ("1)Data: ",data);
+                // doc.data() is never undefined for query doc snapshots
+                //console log data
+                // console.log("||id : ",doc.data().id," => name : ", doc.data().name," || access: ",doc.data().access," || phone : ",doc.data().phone);
+                const newd={
+                  ...doc.data(),
+                  age: calculateAge(doc.data().DateBirth)
+                };
+                data.push(newd);
+                
+                //console.log("name :", doc.data().FirstName,"age : ",calculateAge(doc.data().DateBirth));
+                
+                console.log(doc.data());
+                
+        });
+
+        setSubjects(data); 
+       
       });
-      setSubjects(data);
-     
+
+      return () => {
+          unsubscribe(); // Unsubscribe from snapshot listener when component unmounts
+        };
+
+    }catch(error){
+      console.log('erroe fetching data',error);
+    }
   }
-   getmembers();
+
+  getmembers();
+
 },[]);
 
  
@@ -46,8 +81,14 @@ const getmembers = async () =>{
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "FirstName",
+      headerName: "First Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "LastName",
+      headerName: "Last Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
@@ -59,17 +100,17 @@ const getmembers = async () =>{
       align: "left",
     },
     {
-      field: "phone",
+      field: "contact",
       headerName: "Phone Number",
       flex: 1,
     },
     {
-      field: "email",
+      field: "Email",
       headerName: "Email",
       flex: 1,
     },
     {
-      field: "accessLevel",
+      field: "access",
       headerName: "Access Level",
       flex: 1,
       renderCell: ({ row: { access } }) => {
@@ -92,9 +133,12 @@ const getmembers = async () =>{
             {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
             {access === "manager" && <SecurityOutlinedIcon />}
             {access === "user" && <LockOpenOutlinedIcon />}
+            
             <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
               {access}
             </Typography>
+
+
           </Box>
         );
       },
@@ -103,7 +147,7 @@ const getmembers = async () =>{
 
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Header title="Members" subtitle="Managing the Members" />
       <Box
         m="40px 0 0 0"
         height="75vh"

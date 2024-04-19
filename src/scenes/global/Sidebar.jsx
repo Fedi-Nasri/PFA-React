@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -16,17 +16,28 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import LogoutIcon from '@mui/icons-material/Logout';
+import { AuthContext } from '../../context/AuthContext';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const {dispatch}=useContext(AuthContext);
   return (
     <MenuItem
       active={selected === title}
       style={{
         color: colors.grey[100],
       }}
-      onClick={() => setSelected(title)}
+      onClick={() => {
+        if (title === "Logout") {
+          console.log('Logging out...'); // Log message for logout
+          dispatch({type:"LOGOUT"});
+         
+        } else {
+          setSelected(title); // Update selected state for other items
+        }
+      }}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -182,6 +193,13 @@ const Sidebar = () => {
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+            />
+             <Item
+              title="Logout"             
+              icon={<LogoutIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              
             />
 
             {/* <Typography

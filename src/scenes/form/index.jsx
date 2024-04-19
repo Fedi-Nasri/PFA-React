@@ -1,30 +1,42 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
+import { Box, Button, TextField,FormControl, InputLabel } from "@mui/material";
+import { Formik,Field } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { mockDataTeam } from "../../data/mockData";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import * as React from 'react';
+import {db} from "../../config/firebase";
+import { doc, setDoc,collection, query, orderBy, limit, getDocs,onSnapshot } from "firebase/firestore";
+
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const handleFormSubmit = (values) => {
 
-   const newData = {
-    id: mockDataTeam.length + 1, // Increment the id based on existing data length
-    name: values.firstName,
-     email: values.email,
-     phone: values.contact,
-     access: "admin",
-     age: 20,
-   };
+  const handleFormSubmit = async (values) => {
     
-     mockDataTeam.push(newData);
+    try {
+      const q = query(collection(db, "members"),orderBy("id", "desc"), limit(1));
+      const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs[0].id);
+      let nb =parseInt(querySnapshot.docs[0].id) + 1;
+      const member = values;
+      member.id =nb;
+      console.log(member);
+      
+      
+      await setDoc(doc(db, "members", nb.toString()),member);
+      console.log("Data ADD",member);
+ 
+  }catch (error){console.error("error waiting document")}
+  
+};
 
-    console.log(values);
-  };
+
+
 
   return (
     <Box m="20px">
-      <Header title="CREATE USER" subtitle="Create a New User Profile" />
+      <Header title="CREATE MEMBER" subtitle="Create a New MEMBER Profile" />
 
       <Formik
         onSubmit={handleFormSubmit}
@@ -41,10 +53,11 @@ const Form = () => {
         }) => (
           <form onSubmit={handleSubmit}>
             <Box
+              
               display="grid"
               gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              gridTemplateColumns="repeat(4, minmax(0, 1fr))"              
+              sx={{ 
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
@@ -52,13 +65,26 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
+                label="User Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.UserName}
+                name="UserName"
+                error={!!touched.UserName && !!errors.UserName}
+                helperText={touched.UserName && errors.UserName}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
                 label="First Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                value={values.FirstName}
+                name="FirstName"
+                error={!!touched.FirstName && !!errors.FirstName}
+                helperText={touched.FirstName && errors.FirstName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -68,10 +94,10 @@ const Form = () => {
                 label="Last Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                value={values.LastName}
+                name="LastName"
+                error={!!touched.LastName && !!errors.LastName}
+                helperText={touched.LastName && errors.LastName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
@@ -81,10 +107,10 @@ const Form = () => {
                 label="Email"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
+                value={values.Email}
+                name="Email"
+                error={!!touched.Email && !!errors.Email}
+                helperText={touched.Email && errors.Email}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -100,36 +126,61 @@ const Form = () => {
                 helperText={touched.contact && errors.contact}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 2"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address2}
-                name="address2"
-                error={!!touched.address2 && !!errors.address2}
-                helperText={touched.address2 && errors.address2}
-                sx={{ gridColumn: "span 4" }}
-              />
+
+
+              
+
+              {/* trying select  */}
+
+              <Field name="access">
+              {({ field, meta }) => (
+                <FormControl sx={{ minWidth: 120, marginBottom: '20px' }} error={meta.touched && !!meta.error}>
+                  <InputLabel id="role-select-label">access</InputLabel>
+                  <Select
+                    {...field}
+                    labelId="role-select-label"
+                    id="role-select"
+                    label="access"
+                  >
+                    <MenuItem value="">
+                      <em>Select a privilge</em>
+                    </MenuItem>
+                    <MenuItem value="Admin">Admin</MenuItem>
+                    <MenuItem value="Manager">Manager</MenuItem>
+                    <MenuItem value="User">User</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            </Field>
+                
+
+              {/* end trying */}
+
+
+              {/*Date of birth*/}
+
+              <Field name="DateBirth">
+              {({ field, meta }) => (
+                <FormControl sx={{ minWidth: 120, marginBottom: '20px' }} error={meta.touched && !!meta.error}>
+                  <TextField
+                    {...field}
+                    id="DateBirth"
+                    label="DateBirth"
+                    type="date"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </FormControl>
+              )}
+            </Field>
+
+              
+
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
-                Create New User
+                Create New Member
               </Button>
             </Box>
           </form>
@@ -143,23 +194,26 @@ const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  FirstName: yup.string().required("required"),
+  LastName: yup.string().required("required"),
+  UserName: yup.string().required("required"),
+  Email: yup.string().email("invalid email").required("required"),
   contact: yup
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  // date: yup.string().required("required"),
+  
 });
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
+  id:"",
+  UserName:"",
+  FirstName: "",
+  LastName: "",
+  Email: "",
   contact: "",
-  address1: "",
-  address2: "",
+  DateBirth: "",
+  access:"",
 };
 
 export default Form;

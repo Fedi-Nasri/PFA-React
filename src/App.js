@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
+import Login from "./scenes/login";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
+import { AuthContext } from './context/AuthContext';
 
 // import FAQ from "./scenes/faq";
 /*import Line from "./scenes/line";
@@ -24,31 +26,39 @@ import Bar from "./scenes/bar";
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
-  
+  const location = useLocation();
 
+  const {currentUser}=useContext(AuthContext);
+
+  // Check if current location is not '/login' or user is authenticated
+  //const currentUser = true/* Check if user is authenticated, e.g., using context, state, etc. */;
+  const showSidebarAndTopbar = location.pathname !== '/login' ;
+
+    const RequireAuth =({children})=>{
+      return currentUser ? (children) : <Navigate to="/login"/>;
+    }
+  
+    //console.log(currentUser);
 
   return (
+
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar isSidebar={isSidebar} />
+        {showSidebarAndTopbar && <Sidebar isSidebar={isSidebar} />}
+          {/* <Sidebar isSidebar={isSidebar} /> */}
           <main className="content">
-            <Topbar setIsSidebar={setIsSidebar} />
+          {showSidebarAndTopbar && <Topbar setIsSidebar={setIsSidebar} />}
+            {/* <Topbar setIsSidebar={setIsSidebar} /> */}
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/form" element={<Form />} />
-              {/* <Route path="/faq" element={<FAQ />} /> */}
-             {/* <Route path="/invoices" element={<Invoices />} /> */}
-              {/*<Route path="/bar" element={<Bar />} />*/}
-              {/*<Route path="/pie" element={<Pie />} />*/}
-              {/*<Route path="/line" element={<Line />} />*/}
-              {/*<Route path="/calendar" element={<Calendar />} />*/}
-              {/*<Route path="/geography" element={<Geography />} />*/}
-
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
+              <Route path="/team" element={<RequireAuth><Team /></RequireAuth>} />
+              <Route path="/contacts" element={<RequireAuth><Contacts /></RequireAuth>} />
+              <Route path="/form" element={<RequireAuth><Form /></RequireAuth>} />
               
+
             </Routes>
           </main>
         </div>

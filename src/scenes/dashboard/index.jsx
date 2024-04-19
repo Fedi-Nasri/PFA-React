@@ -12,13 +12,18 @@ import Header from "../../components/Header";
 // import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 // import ProgressCircle from "../../components/ProgressCircle";
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import FireplaceIcon from '@mui/icons-material/Fireplace';
+import { red } from "@mui/material/colors";
+<link id="happy" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> 
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box m="20px">
+    <Box m="20px"  
+    >
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
@@ -26,8 +31,8 @@ const Dashboard = () => {
         <Box>
           <Button
             sx={{
-              backgroundColor: colors.blueAccent[700],
-              color: colors.grey[100],
+              backgroundColor: colors.grey[700],
+              color: "black",
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
@@ -41,6 +46,7 @@ const Dashboard = () => {
 
       {/* GRID & CHARTS */}
       <Box
+       borderRadius="30px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="140px"
@@ -48,6 +54,7 @@ const Dashboard = () => {
       >
         {/* ROW 1 */}
         <Box
+          borderRadius="30px"
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -55,18 +62,20 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
+            title="1"
+            subtitle="temperature"
             progress="0.75"
             increase="+14%"
             icon={
-              <EmailIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              
+              <DeviceThermostatIcon
+                sx={{ fontSize: "26px" }}
               />
             }
           />
         </Box>
         <Box
+          borderRadius="30px"
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -75,17 +84,18 @@ const Dashboard = () => {
         >
           <StatBox
             title="431,225"
-            subtitle="Sales Obtained"
+            subtitle="Fire "
             progress="0.50"
             increase="+21%"
             icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              <FireplaceIcon
+                sx={{ fontSize: "26px" }}
               />
             }
           />
         </Box>
         <Box
+        borderRadius="30px"
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -99,12 +109,56 @@ const Dashboard = () => {
             increase="+5%"
             icon={
               <PersonAddIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{ color:"black", fontSize: "26px" }}
               />
             }
           />
         </Box>
+       
+
+        {/* ROW 2 */}
         <Box
+       borderRadius="30px"
+          gridColumn="span 4"
+          gridRow="span 1"
+          backgroundColor={colors.primary[400]}
+        >
+      <Box
+       borderRadius="30px"
+        display="grid"
+        gridTemplateColumns="repeat(12, 1fr)"
+        gridAutoRows="140px"
+        gap="20px"
+      >
+
+
+
+
+        <Box
+        borderRadius="30px"
+          gridColumn="span "
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title="1"
+            subtitle="temperature"
+            progress="0.75"
+            increase="+14%"
+            icon={
+              
+              <DeviceThermostatIcon
+                sx={{  fontSize: "26px" }}
+              />
+            }
+          />
+        </Box>
+        </Box>
+        </Box>
+        <Box
+        borderRadius="30px"
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
           display="flex"
@@ -112,57 +166,46 @@ const Dashboard = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
-            progress="0.80"
-            increase="+43%"
+            title="431,225"
+            subtitle="Fire "
+            progress="0.50"
+            increase="+21%"
             icon={
-              <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+              <FireplaceIcon
+                sx={{ fontSize: "26px" }}
+              />
+            }
+          />
+      
+
+
+        
+      </Box>
+      <Box
+      borderRadius="30px"
+      gridColumn="span 3"
+      gridRow="span 3"
+          backgroundColor={colors.primary[400]}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <StatBox
+            title="1"
+            subtitle="temperature"
+          
+            progress="0.75"
+            increase="+14%"
+            icon={
+              
+              <DeviceThermostatIcon
+                sx={{fontSize: "26px" }}
               />
             }
           />
         </Box>
-
-        {/* ROW 2 */}
-        <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-        >
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
-                />
-              </IconButton>
-            </Box>
-          </Box>
-          </Box>
       </Box>
+
     </Box>
   );
 };

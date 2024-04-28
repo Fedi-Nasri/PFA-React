@@ -6,23 +6,23 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AuthContext } from '../../context/AuthContext';
+import {database} from "../../config/realtime";
+import {ref, set,update , limitToLast, orderByKey, get } from 'firebase/database';
 
+function removeQuotes(str) {
+  // Use the replace() method with a regular expression to remove all double quotes
+  const result = str.replace(/"/g, '');
+  return result;
+}
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = tokens(theme.palette.mode); 
   const {dispatch}=useContext(AuthContext);
+  
   return (
     <MenuItem
       active={selected === title}
@@ -31,6 +31,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       }}
       onClick={() => {
         if (title === "Logout") {
+          const newdata ={Online:false};
+          const username = removeQuotes(localStorage.getItem('user'));
+         //console.log(username );
+          const refnode= `members state/State/${username}/`;
+          update(ref(database,refnode),newdata);
           console.log('Logging out...'); // Log message for logout
           dispatch({type:"LOGOUT"});
          
@@ -129,6 +134,7 @@ const Sidebar = () => {
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            
             <Item
               title="Home"
               to="/"
@@ -137,13 +143,6 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography> */}
             <Item
               title="Members"
               to="/team"
@@ -151,13 +150,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Members Information"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
             {/* <Item
               title="Invoices Balances"
               to="/invoices"
@@ -166,13 +159,6 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
 
-            {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Pages
-            </Typography> */}
             <Item
               title="Profile Form"
               to="/form"
@@ -180,63 +166,22 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             {/* <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            <Item
               title="FAQ Page"
               to="/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
+
              <Item
               title="Logout"             
               icon={<LogoutIcon />}
               selected={selected}
               setSelected={setSelected}
-              
             />
 
-            {/* <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
           </Box>
         </Menu>
       </ProSidebar>

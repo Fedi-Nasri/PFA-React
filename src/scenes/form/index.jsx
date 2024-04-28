@@ -74,6 +74,7 @@ const Form = () => {
                 helperText={touched.UserName && errors.UserName}
                 sx={{ gridColumn: "span 2" }}
               />
+
               <TextField
                 fullWidth
                 variant="filled"
@@ -111,8 +112,22 @@ const Form = () => {
                 name="Email"
                 error={!!touched.Email && !!errors.Email}
                 helperText={touched.Email && errors.Email}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Password"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.Password}
+                name="Password"
+                error={!!touched.Password && !!errors.Password}
+                helperText={touched.Password && errors.Password}
+                sx={{ gridColumn: "span 2" }}
+              />
+              
               <TextField
                 fullWidth
                 variant="filled"
@@ -124,7 +139,7 @@ const Form = () => {
                 name="contact"
                 error={!!touched.contact && !!errors.contact}
                 helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
+                sx={{ gridColumn: "span 2" }}
               />
 
 
@@ -197,6 +212,7 @@ const checkoutSchema = yup.object().shape({
   FirstName: yup.string().required("required"),
   LastName: yup.string().required("required"),
   UserName: yup.string().required("required"),
+  Password: yup.string().required("required"),
   Email: yup.string().email("invalid email").required("required"),
   contact: yup
     .string()
@@ -214,6 +230,7 @@ const initialValues = {
   contact: "",
   DateBirth: "",
   access:"",
+  Password:"",
 };
 
 export default Form;

@@ -71,12 +71,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-                       App version 0.0.5
-about app :
-
+                       App version 0.0.6
+about app Version :
+        clean some code and file in app 
         new feature add :
-                + add login interface 
-                + update dashborde interface
-                + authentification 
-                + fix bugs database
-                + create a real time database for sencors
+                + more details in time log in and addding members in database

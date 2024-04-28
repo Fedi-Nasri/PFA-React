@@ -1,6 +1,6 @@
 import {useState,useEffect} from 'react';
 import { Box, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataTeam } from "../../data/mockData";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
@@ -175,9 +175,13 @@ useEffect( ()=> {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
-        <DataGrid checkboxSelection rows={subjects} columns={columns} />
+        <DataGrid checkboxSelection rows={subjects} columns={columns}  components={{ Toolbar: GridToolbar }}/>
+        
       </Box>
     </Box>
   );

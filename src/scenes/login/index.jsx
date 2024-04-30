@@ -71,6 +71,19 @@ function Copyright(props) {
 
 //------------------------------END IF EXIST -----------------
 
+//-----------------------FUNCTION GET ACCESS ---------------------
+const getaccess = async (username) => {
+    const usersRef = collection(db, 'members');
+    const q = query(usersRef, where('UserName', '==', username));
+    const querySnapshot = await getDocs(q);
+
+      const userDoc = querySnapshot.docs[0]; 
+      const userData = userDoc.data();
+      return userData.access ;
+
+}
+//----------------------END GET ACCESS-------------------------------
+
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -165,8 +178,8 @@ function Login() {
          console.log("data send .....");
          
         }catch(error){console.log(error);}
-
-    dispatch({type:"LOGIN" , payload:username});
+      const Role =await getaccess(username); // try to get the role from database Firestore
+    dispatch({type:"LOGIN" , payload:{currentUser :username ,currentRole: Role}});
     navigate("/");
 
   } else {

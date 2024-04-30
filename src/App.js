@@ -10,9 +10,9 @@ import Login from "./scenes/login";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { AuthContext } from './context/AuthContext';
-
+import Line from "./scenes/line";
 // import FAQ from "./scenes/faq";
-/*import Line from "./scenes/line";
+/*
 import Pie from "./scenes/pie";
 import Geography from "./scenes/geography";
 import Invoices from "./scenes/invoices";
@@ -20,7 +20,12 @@ import Calendar from "./scenes/calendar/calendar";
 import Bar from "./scenes/bar";
 */
 
-
+function removeQuotes(str) {
+  if (str.length >= 2 && str[0] === '"' && str[str.length - 1] === '"') {
+    return str.slice(1, -1); // Efficient removal using slicing
+  }
+  return str; // Return the original string if no quotes found
+}
 
 
 function App() {
@@ -29,7 +34,8 @@ function App() {
   const location = useLocation();
 
   const {currentUser}=useContext(AuthContext);
-
+  const{currentRole}=useContext(AuthContext);
+ 
   // Check if current location is not '/login' or user is authenticated
   //const currentUser = true/* Check if user is authenticated, e.g., using context, state, etc. */;
   const showSidebarAndTopbar = location.pathname !== '/login' ;
@@ -37,8 +43,20 @@ function App() {
     const RequireAuth =({children})=>{
       return currentUser ? (children) : <Navigate to="/login"/>;
     }
-  
-    //console.log(currentUser);
+
+    function AdminElement({children}){
+      if (currentRole == "Admin") {return<>{children}</>; }else{
+        return <div>you do not have access to this page </div>;
+      }
+    }
+    function ManagerAdminElement({children}){
+      if ((currentRole == "Admin") || (currentRole =="Manager")){return<>{children}</>; }else{
+        return <div>you do not have access to this page </div>;
+      }
+    }
+
+    console.log("from app currentUser ",currentUser);
+    console.log("from app currentRole ",currentRole);
 
   return (
 
@@ -54,11 +72,10 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
-              <Route path="/team" element={<RequireAuth><Team /></RequireAuth>} />
-              <Route path="/contacts" element={<RequireAuth><Contacts /></RequireAuth>} />
-              <Route path="/form" element={<RequireAuth><Form /></RequireAuth>} />
-              
-
+              <Route path="/team" element={<RequireAuth><ManagerAdminElement><Team /></ManagerAdminElement></RequireAuth>} />
+              <Route path="/contacts" element={<RequireAuth><AdminElement><Contacts /></AdminElement></RequireAuth>} />
+              <Route path="/form" element={<RequireAuth><ManagerAdminElement><Form /></ManagerAdminElement></RequireAuth>} />
+              <Route path="/line" element={<RequireAuth><AdminElement><Line /></AdminElement></RequireAuth>} />
             </Routes>
           </main>
         </div>
@@ -66,5 +83,8 @@ function App() {
     </ColorModeContext.Provider>
   );
 }
+
+
+
 
 export default App;

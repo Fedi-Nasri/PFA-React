@@ -8,10 +8,12 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { AuthContext } from '../../context/AuthContext';
 import {database} from "../../config/realtime";
 import {ref, set,update , limitToLast, orderByKey, get } from 'firebase/database';
+
 
 function removeQuotes(str) {
   // Use the replace() method with a regular expression to remove all double quotes
@@ -56,7 +58,9 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-
+  const {currentRole}=useContext(AuthContext);
+  const {currentUser}=useContext(AuthContext);
+  console.log("side bare acces : ",currentRole);
   return (
     <Box
       sx={{
@@ -96,7 +100,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                  ADMINIS
+                  {currentRole}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -124,11 +128,11 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  FEDI
+                  {currentUser}
                 </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
+                {(currentRole == "Admin" &&<Typography variant="h5" color={colors.greenAccent[500]}>
                   VP Fancy Admin
-                </Typography>
+                </Typography>)}
               </Box>
             </Box>
           )}
@@ -143,13 +147,14 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Item
+            {(currentRole === "Admin" || currentRole === "Manager") && ( <Item
               title="Members"
               to="/team"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> )}
+            
 
             {/* <Item
               title="Invoices Balances"
@@ -159,13 +164,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
 
-            <Item
+            {(currentRole == "Admin" &&<Item
               title="Profile Form"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />)}
 
             {/* <Item
               title="FAQ Page"
@@ -174,6 +179,14 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             /> */}
+            
+            {(currentRole == "Admin" &&<Item
+              title="Line Chart"
+              to="/line"
+              icon={<TimelineOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />)}
 
              <Item
               title="Logout"             

@@ -71,9 +71,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-                       App version 0.0.7
+                       App version 0.0.8
 about app Version :
         
         new feature add :
-                + add  chart graphe 
-                + add priveleges admiin/user/manager
+                + add  chart graphe  chart line real time show data
+                

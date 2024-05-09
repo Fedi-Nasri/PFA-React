@@ -1,15 +1,149 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "../data/mockData";
-
+import { addToArray,datachart,clean}from "../data/datachart";
+import {useState,useEffect} from 'react';
+import { getDatabase, ref, onValue ,snapshot} from "firebase/database";
+import {database} from "../config/realtime";
 const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [datatest, setDatatest] = useState(null);
+  const [time, setime] = useState(null);
+  const [hot, sethot] = useState(null);
+  const [prevTime,setPrevTime]=useState("null");
+  const [prevHot,setPrevHot]=useState(0)
+ 
+  //remouve duplacated array
+  function uniqueByKeepLast(data,key){
+    return [
+      ...new Map(
+        data.map(x => [key(x),x])
+      ).values()
+    ]
+  }
+ 
+//new code
+  
+useEffect(() => {
+  const dbRef = ref(database, "update/"); // Replace with your actual path
+
+  const unsubscribe = onValue(
+    dbRef,
+    (snapshot) => {
+      const newData =  [ {x: 12,y:78},
+        //{ x: 1, y: 80 },
+        //{ x: 2, y: 75 },
+        // ... other data points
+      ] ;
+    
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+       
+        
+        if (childKey =="temperature"){
+          //console.log(" key  : ",childKey);
+          //console.log(" temperature  : ",childData);
+          sethot(childData);
+        }else if(childKey =="time_string"){
+          //console.log(" key  : ",childKey);
+          //console.log(" time  : ",childData);
+          setime(childData);
+        }
+        
+
+      });
+      
+    
+      //console.log(uniqueArray);
+      //newData.push({ x: time, y: hot }); // Add childKey as an "id" property
+       // Check if time and hot are not null and have changed
+    if ((time !== null && hot !== null) && (time !== prevTime ) ) {
+      //console.log("Time :  ",time,"||   priv: ",prevTime)
+      //console.log("tempret :  ",hot,"||   priv :  ",prevHot)
+      clean(uniqueByKeepLast(datachart[0].data,it => it.x));
+      addToArray({ x: time, y: hot });
+      clean(uniqueByKeepLast(datachart[0].data,it => it.x));
+      console.log("unique array : ",uniqueByKeepLast(datachart[0].data,it => it.x));
+      console.log("data in the chart : ",datachart);
+    }else{
+      //console.log("repetetive object ...");
+    }
+    
+    },
+    {
+      onlyOnce: false,
+    }
+  );
+    
+  return () => unsubscribe(); // Cleanup function to detach listener on unmount
+}, [time, hot]); // Empty dependency array, fetch data only on mount (adjust if needed)
+
+
+const mockLineData = [
+  {
+    id: "japan",
+    color: "hsl(113, 93%, 40%)",
+    data: [
+      {
+        x: 1,
+        y: 80,
+      },
+      {
+        x: 2,
+        y: 75,
+      },
+      {
+        x: 3,
+        y: 36,
+      },
+      {
+        x: 4,
+        y: 216,
+      },
+      {
+        x: 5,
+        y: 35,
+      },
+      {
+        x: "bus",
+        y: 236,
+      },
+      {
+        x: "car",
+        y: 88,
+      },
+      {
+        x: "moto",
+        y: 232,
+      },
+      {
+        x: "bicycle",
+        y: 281,
+      },
+      {
+        x: "horse",
+        y: 1,
+      },
+      {
+        x: "skateboard",
+        y: 35,
+      },
+      {
+        x: "others",
+        y: 14,
+      },
+    ],
+  },
+];
+
+
+
 
   return (
     <ResponsiveLine
-      data={data}
+      data={datachart}
       theme={{
         axis: {
           domain: {

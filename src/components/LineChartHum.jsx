@@ -1,11 +1,11 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { addToArray,datachart,clean}from "../data/datachart";
+import { addToArray,datachart,clean,addToArrayhum,datachartHum,cleanhum}from "../data/datachart";
 import {useState,useEffect} from 'react';
 import { getDatabase, ref, onValue ,snapshot} from "firebase/database";
 import {database} from "../config/realtime";
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChartHum = ({ isCustomLineColors = false, isDashboard = false }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [datatest, setDatatest] = useState(null);
@@ -26,7 +26,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
 //new code
   
 useEffect(() => {
-  const dbRef = ref(database, "update/temperature"); // Replace with your actual path
+  const dbRef = ref(database, "update/humidity"); // Replace with your actual path
 
   const unsubscribe = onValue(
     dbRef,
@@ -42,7 +42,7 @@ useEffect(() => {
         const childData = childSnapshot.val();
        
         
-        if (childKey =="temperature"){
+        if (childKey =="humidity"){
           //console.log(" key  : ",childKey);
           //console.log(" temperature  : ",childData);
           sethot(childData);
@@ -62,11 +62,11 @@ useEffect(() => {
     if ((time !== null && hot !== null) && (time !== prevTime ) ) {
       //console.log("Time :  ",time,"||   priv: ",prevTime)
       //console.log("tempret :  ",hot,"||   priv :  ",prevHot)
-      clean(uniqueByKeepLast(datachart[0].data,it => it.x));
-      addToArray({ x: time, y: hot });
-      clean(uniqueByKeepLast(datachart[0].data,it => it.x));
-      console.log("unique array : ",uniqueByKeepLast(datachart[0].data,it => it.x));
-      console.log("data in the chart : ",datachart);
+      cleanhum(uniqueByKeepLast(datachartHum[0].data,it => it.x));
+      addToArrayhum({ x: time, y: hot });
+      cleanhum(uniqueByKeepLast(datachartHum[0].data,it => it.x));
+      console.log("unique array : ",uniqueByKeepLast(datachartHum[0].data,it => it.x));
+      console.log("data in the chart : ",datachartHum);
     }else{
       //console.log("repetetive object ...");
     }
@@ -81,69 +81,12 @@ useEffect(() => {
 }, [time, hot]); // Empty dependency array, fetch data only on mount (adjust if needed)
 
 
-const mockLineData = [
-  {
-    id: "japan",
-    color: "hsl(113, 93%, 40%)",
-    data: [
-      {
-        x: 1,
-        y: 80,
-      },
-      {
-        x: 2,
-        y: 75,
-      },
-      {
-        x: 3,
-        y: 36,
-      },
-      {
-        x: 4,
-        y: 216,
-      },
-      {
-        x: 5,
-        y: 35,
-      },
-      {
-        x: "bus",
-        y: 236,
-      },
-      {
-        x: "car",
-        y: 88,
-      },
-      {
-        x: "moto",
-        y: 232,
-      },
-      {
-        x: "bicycle",
-        y: 281,
-      },
-      {
-        x: "horse",
-        y: 1,
-      },
-      {
-        x: "skateboard",
-        y: 35,
-      },
-      {
-        x: "others",
-        y: 14,
-      },
-    ],
-  },
-];
-
 
 
 
   return (
     <ResponsiveLine
-      data={datachart}
+      data={datachartHum}
       theme={{
         axis: {
           domain: {
@@ -248,4 +191,4 @@ const mockLineData = [
   );
 };
 
-export default LineChart;
+export default LineChartHum;

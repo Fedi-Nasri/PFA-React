@@ -19,7 +19,8 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
           },
           legend: {
             text: {
-              fill: colors.grey[100],
+              fill:colors="#000000",
+       
             },
           },
           ticks: {

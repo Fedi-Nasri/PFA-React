@@ -13,7 +13,7 @@ export const addToArray = (newObject) => {
 };
 
 export const datachartHum =[{id: "humedity",
-color: "hsl(113, 93%, 40%)",
+color: "hsl(176, 98%, 36%)",
 data : [
   { x: "0", y: 0 },
 ],},

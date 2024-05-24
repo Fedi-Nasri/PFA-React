@@ -81,64 +81,6 @@ useEffect(() => {
 }, [time, hot]); // Empty dependency array, fetch data only on mount (adjust if needed)
 
 
-const mockLineData = [
-  {
-    id: "japan",
-    color: "hsl(113, 93%, 40%)",
-    data: [
-      {
-        x: 1,
-        y: 80,
-      },
-      {
-        x: 2,
-        y: 75,
-      },
-      {
-        x: 3,
-        y: 36,
-      },
-      {
-        x: 4,
-        y: 216,
-      },
-      {
-        x: 5,
-        y: 35,
-      },
-      {
-        x: "bus",
-        y: 236,
-      },
-      {
-        x: "car",
-        y: 88,
-      },
-      {
-        x: "moto",
-        y: 232,
-      },
-      {
-        x: "bicycle",
-        y: 281,
-      },
-      {
-        x: "horse",
-        y: 1,
-      },
-      {
-        x: "skateboard",
-        y: 35,
-      },
-      {
-        x: "others",
-        y: 14,
-      },
-    ],
-  },
-];
-
-
 
 
   return (
@@ -177,7 +119,7 @@ const mockLineData = [
           },
         },
       }}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
+      colors="#fa4e4e"// added
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       xScale={{ type: "point" }}
       yScale={{
@@ -192,13 +134,11 @@ const mockLineData = [
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        orient: "bottom",
-        tickSize: 0,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
-        legendOffset: 36,
-        legendPosition: "middle",
+        "orient": "bottom",
+        "tickSize": 0,
+        "tickPadding": 5,
+        "tickRotation": 0,
+        "format": () => '',
       }}
       axisLeft={{
         orient: "left",

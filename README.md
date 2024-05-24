@@ -71,9 +71,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-                       App version 0.0.9
+                       App version 0.1.2
 about app Version :
         
         new feature add :
-                + add  chart graphe  chart line real time show data
+                + fix bugs
+                + fix dashbord 
+                + fix  charts 
+                 
                 

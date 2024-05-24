@@ -120,7 +120,7 @@ useEffect(() => {
           },
         },
       }}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
+      colors="#31b9da"// added
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       xScale={{ type: "point" }}
       yScale={{
@@ -135,13 +135,11 @@ useEffect(() => {
       axisTop={null}
       axisRight={null}
       axisBottom={{
-        orient: "bottom",
-        tickSize: 0,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
-        legendOffset: 36,
-        legendPosition: "middle",
+        "orient": "bottom",
+        "tickSize": 0,
+        "tickPadding": 5,
+        "tickRotation": 0,
+        "format": () => '',
       }}
       axisLeft={{
         orient: "left",

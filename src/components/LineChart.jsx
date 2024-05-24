@@ -26,7 +26,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
 //new code
   
 useEffect(() => {
-  const dbRef = ref(database, "update/temperature"); // Replace with your actual path
+  const dbRef = ref(database, "update/"); // Replace with your actual path
 
   const unsubscribe = onValue(
     dbRef,

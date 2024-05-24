@@ -71,8 +71,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 
-                       App version 0.0.10
+                       App version 0.0.7
 about app Version :
         
         new feature add :
-                + dashbord
+                + add  chart graphe 
+                + add priveleges admiin/user/manager

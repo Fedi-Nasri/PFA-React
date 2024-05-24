@@ -182,26 +182,26 @@ export const mockPieData = [
 export const mockLineData = [
   {
     id: "japan",
-    color: tokens("dark").greenAccent[500],
+    color: "hsl(113, 93%, 40%)",
     data: [
       {
-        x: "plane",
-        y: 101,
+        x: 1,
+        y: 80,
       },
       {
-        x: "helicopter",
+        x: 2,
         y: 75,
       },
       {
-        x: "boat",
+        x: 3,
         y: 36,
       },
       {
-        x: "train",
+        x: 4,
         y: 216,
       },
       {
-        x: "subway",
+        x: 5,
         y: 35,
       },
       {
@@ -234,115 +234,115 @@ export const mockLineData = [
       },
     ],
   },
-  {
-    id: "france",
-    color: tokens("dark").blueAccent[300],
-    data: [
-      {
-        x: "plane",
-        y: 212,
-      },
-      {
-        x: "helicopter",
-        y: 190,
-      },
-      {
-        x: "boat",
-        y: 270,
-      },
-      {
-        x: "train",
-        y: 9,
-      },
-      {
-        x: "subway",
-        y: 75,
-      },
-      {
-        x: "bus",
-        y: 175,
-      },
-      {
-        x: "car",
-        y: 33,
-      },
-      {
-        x: "moto",
-        y: 189,
-      },
-      {
-        x: "bicycle",
-        y: 97,
-      },
-      {
-        x: "horse",
-        y: 87,
-      },
-      {
-        x: "skateboard",
-        y: 299,
-      },
-      {
-        x: "others",
-        y: 251,
-      },
-    ],
-  },
-  {
-    id: "us",
-    color: tokens("dark").redAccent[200],
-    data: [
-      {
-        x: "plane",
-        y: 191,
-      },
-      {
-        x: "helicopter",
-        y: 136,
-      },
-      {
-        x: "boat",
-        y: 91,
-      },
-      {
-        x: "train",
-        y: 190,
-      },
-      {
-        x: "subway",
-        y: 211,
-      },
-      {
-        x: "bus",
-        y: 152,
-      },
-      {
-        x: "car",
-        y: 189,
-      },
-      {
-        x: "moto",
-        y: 152,
-      },
-      {
-        x: "bicycle",
-        y: 8,
-      },
-      {
-        x: "horse",
-        y: 197,
-      },
-      {
-        x: "skateboard",
-        y: 107,
-      },
-      {
-        x: "others",
-        y: 170,
-      },
-    ],
-  },
-];
+//   {
+//     id: "france",
+//     color: tokens("dark").blueAccent[300],
+//     data: [
+//       {
+//         x: "plane",
+//         y: 212,
+//       },
+//       {
+//         x: "helicopter",
+//         y: 190,
+//       },
+//       {
+//         x: "boat",
+//         y: 270,
+//       },
+//       {
+//         x: "train",
+//         y: 9,
+//       },
+//       {
+//         x: "subway",
+//         y: 75,
+//       },
+//       {
+//         x: "bus",
+//         y: 175,
+//       },
+//       {
+//         x: "car",
+//         y: 33,
+//       },
+//       {
+//         x: "moto",
+//         y: 189,
+//       },
+//       {
+//         x: "bicycle",
+//         y: 97,
+//       },
+//       {
+//         x: "horse",
+//         y: 87,
+//       },
+//       {
+//         x: "skateboard",
+//         y: 299,
+//       },
+//       {
+//         x: "others",
+//         y: 251,
+//       },
+//     ],
+//   },
+//   {
+//     id: "us",
+//     color: tokens("dark").redAccent[200],
+//     data: [
+//       {
+//         x: "plane",
+//         y: 191,
+//       },
+//       {
+//         x: "helicopter",
+//         y: 136,
+//       },
+//       {
+//         x: "boat",
+//         y: 91,
+//       },
+//       {
+//         x: "train",
+//         y: 190,
+//       },
+//       {
+//         x: "subway",
+//         y: 211,
+//       },
+//       {
+//         x: "bus",
+//         y: 152,
+//       },
+//       {
+//         x: "car",
+//         y: 189,
+//       },
+//       {
+//         x: "moto",
+//         y: 152,
+//       },
+//       {
+//         x: "bicycle",
+//         y: 8,
+//       },
+//       {
+//         x: "horse",
+//         y: 197,
+//       },
+//       {
+//         x: "skateboard",
+//         y: 107,
+//       },
+//       {
+//         x: "others",
+//         y: 170,
+//       },
+//     ],
+//   },
+ ];
 
 export const mockGeographyData = [
   {

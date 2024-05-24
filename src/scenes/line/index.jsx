@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
+import LineChartHum from "../../components/LineChartHum";
 
 const Line = () => {
   return (
@@ -11,7 +12,7 @@ const Line = () => {
         <LineChart />
       </Box>
       <Box height="35vh">
-        <LineChart />
+        <LineChartHum />
       </Box>
     </Box>
   );
